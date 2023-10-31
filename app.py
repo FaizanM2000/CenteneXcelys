@@ -1,5 +1,7 @@
 import streamlit as st
 import pandas as pd
+import os 
+
 
 # The main script for processing
 def process_data(file):
@@ -92,6 +94,14 @@ def main():
             b64 = base64.b64encode(csv.encode()).decode()
             href = f'<a href="data:file/csv;base64,{b64}" download="duplicates.csv">Download CSV File</a>'
             st.markdown(href, unsafe_allow_html=True)
+
+            # Delete the Excel file after processing and providing download link
+            try:
+                os.remove(uploaded_file.name)
+            except Exception as e:
+                st.warning(f"An error occurred when deleting the file: {e}")
+                
+
         else:
             st.write("No duplicates found!")
 
